@@ -4,11 +4,16 @@ import type {
 } from 'caravaggio/dist/pluginLoader/pluginLoader';
 
 interface NextJSPluginOptions {
-  baseUrl: string;
+  baseUrl?: string;
+  protocol?: 'http' | 'https';
 }
 
-const nextJSPlugin: PluginConstructor<NextJSPluginOptions> = (opt) => {
-  const { pluginOptions: { baseUrl } = {} } = opt;
+const nextJSPlugin = (
+  opt: NextJSPluginOptions = {}
+): PluginConstructor => () => {
+  const { baseUrl, protocol } = opt;
+  const finalProtocol =
+    protocol || process.env.NODE_ENV === 'production' ? 'https' : 'http';
 
   let base: string;
   if (baseUrl) {
@@ -17,8 +22,8 @@ const nextJSPlugin: PluginConstructor<NextJSPluginOptions> = (opt) => {
     if (process.env.VERCEL_URL) {
       base =
         process.env.NODE_ENV === 'production'
-          ? `https://${process.env.VERCEL_URL}`
-          : `http://${process.env.VERCEL_URL}`;
+          ? `${finalProtocol}://${process.env.VERCEL_URL}`
+          : `${finalProtocol}://${process.env.VERCEL_URL}`;
     }
   }
 
@@ -27,8 +32,8 @@ const nextJSPlugin: PluginConstructor<NextJSPluginOptions> = (opt) => {
       if (!base) {
         base =
           process.env.NODE_ENV === 'production'
-            ? `https://${req.headers.host}`
-            : `http://${req.headers.host}`;
+            ? `${finalProtocol}://${req.headers.host}`
+            : `${finalProtocol}://${req.headers.host}`;
       }
       if (url.startsWith('/')) {
         const final = new URL(url, base).toString();
