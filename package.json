@@ -23,5 +23,8 @@
   },
   "dependencies": {
     "@types/node": "^14.6.0"
+  },
+  "peerDependencies": {
+    "caravaggio": ">3.3.0"
   }
 }
