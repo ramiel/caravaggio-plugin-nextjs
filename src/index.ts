@@ -20,23 +20,15 @@ const nextJSPlugin = (
     base = baseUrl;
   } else {
     if (process.env.VERCEL_URL) {
-      base =
-        process.env.NODE_ENV === 'production'
-          ? `${finalProtocol}://${process.env.VERCEL_URL}`
-          : `${finalProtocol}://${process.env.VERCEL_URL}`;
+      base = `${finalProtocol}://${process.env.VERCEL_URL}`;
     }
   }
 
   const plugin: Plugin = {
     urlTransform: async (url, req) => {
-      if (!base) {
-        base =
-          process.env.NODE_ENV === 'production'
-            ? `${finalProtocol}://${req.headers.host}`
-            : `${finalProtocol}://${req.headers.host}`;
-      }
       if (url.startsWith('/')) {
-        const final = new URL(url, base).toString();
+        const finalBase = base || `${finalProtocol}://${req.headers.host}`;
+        const final = new URL(url, finalBase).toString();
         return final;
       }
       return url;
