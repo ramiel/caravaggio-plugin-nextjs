@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "rimraf -G dist/ && NODE_ENV=production tsc --build",
+    "build-watch": "yarn build --watch",
     "prepare": "npm run build"
   },
   "devDependencies": {
