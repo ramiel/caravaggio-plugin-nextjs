@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rimraf -G dist/ && NODE_ENV=production tsc --build",
     "build-watch": "yarn build --watch",
-    "prepare": "npm run build"
+    "prepare": "rimraf -G dist/ && NODE_ENV=production tsc --build"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.9.1",
