@@ -1,6 +1,6 @@
 {
   "name": "caravaggio-plugin-nextjs",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Plugin to easily integrate caravaggio with nextjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
